@@ -2,7 +2,10 @@ import {
   APIGatewayAuthorizerResult,
   APIGatewayRequestAuthorizerEvent,
 } from "aws-lambda";
+import { CognitoIdentityServiceProvider } from "aws-sdk";
 import { CookieMap, createPolicy, parseCookies, verifyToken } from "../utils";
+
+const cognito = new CognitoIdentityServiceProvider();
 
 exports.handler = async (
   event: APIGatewayRequestAuthorizerEvent

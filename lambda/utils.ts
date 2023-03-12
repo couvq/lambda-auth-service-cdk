@@ -48,7 +48,7 @@ export const verifyToken = async (
   userPoolId: string
 ): Promise<JwtToken> => {
   try {
-    const url = `https://cognito-idp.eu-central-1.amazonaws.com/${userPoolId}/.well-known/jwks.json`;
+    const url = `https://cognito-idp.us-east-2.amazonaws.com/${userPoolId}/.well-known/jwks.json`;
 
     const { data }: { data: Jwk } = await axios.get(url);
     const pem = jwkToPem(data.keys[0]);
