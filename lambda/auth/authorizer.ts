@@ -14,7 +14,7 @@ exports.handler = async (
   const cookie = event?.headers?.cookie;
 
   if (!cookie) {
-    console.error("No auth cookies provided");
+    console.error("No auth cookies provided!");
     return {
       principalId: "",
       policyDocument: createPolicy(event, "Deny"),
