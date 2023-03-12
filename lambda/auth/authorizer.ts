@@ -9,9 +9,11 @@ exports.handler = async (
 ): Promise<APIGatewayAuthorizerResult> => {
   console.log("[EVENT]", event);
 
-  const cookies: CookieMap = parseCookies(event);
+  //   const cookies: CookieMap = parseCookies(event);
+  //   console.log(cookies);
+  const cookie = event?.headers?.cookie;
 
-  if (!cookies) {
+  if (!cookie) {
     console.error("No auth cookies provided");
     return {
       principalId: "",
@@ -20,7 +22,7 @@ exports.handler = async (
   }
 
   const verifiedJwt = await verifyToken(
-    cookies.token,
+    cookie,
     process.env.USER_POOL_ID!
   );
 
