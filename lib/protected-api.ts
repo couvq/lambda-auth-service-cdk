@@ -26,7 +26,7 @@ export class ProtectedApi extends Construct {
 			},
             deployOptions: {
                 accessLogDestination: new LogGroupLogDestination(logsOfApiGateway),
-                accessLogFormat: AccessLogFormat.jsonWithStandardFields();
+                accessLogFormat: AccessLogFormat.jsonWithStandardFields()
             }
 		});
 
