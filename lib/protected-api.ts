@@ -1,9 +1,10 @@
 import { Duration } from 'aws-cdk-lib';
 import { RestApi, EndpointType, Cors, AuthorizationType,
-    IdentitySource, LambdaIntegration, RequestAuthorizer,
+    IdentitySource, LambdaIntegration, RequestAuthorizer, LogGroupLogDestination, AccessLogFormat,
 } from 'aws-cdk-lib/aws-apigateway';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
 type ProtectedApiProps = {
@@ -15,12 +16,18 @@ export class ProtectedApi extends Construct {
 	constructor(scope: Construct, id: string, props: ProtectedApiProps) {
 		super(scope, id);
 
+        const logsOfApiGateway = new LogGroup(this, "ApiGatewayLogs");
+
 		const api = new RestApi(this, 'ProtectedApi', {
 			description: 'Protected RestApi',
 			endpointTypes: [EndpointType.REGIONAL],
 			defaultCorsPreflightOptions: {
 				allowOrigins: Cors.ALL_ORIGINS,
 			},
+            deployOptions: {
+                accessLogDestination: new LogGroupLogDestination(logsOfApiGateway),
+                accessLogFormat: AccessLogFormat.jsonWithStandardFields();
+            }
 		});
 
 		const protectedRes = api.root.addResource('protected');
