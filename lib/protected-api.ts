@@ -52,7 +52,7 @@ export class ProtectedApi extends Construct {
 		});
 
 		const requestAuthorizer = new RequestAuthorizer(this, 'RequestAuthorizer', {
-			identitySources: [IdentitySource.header('cookie')],
+			identitySources: [IdentitySource.header('Authorization')],
 			handler: authorizerFn,
 			resultsCacheTtl: Duration.minutes(0),
 		});
